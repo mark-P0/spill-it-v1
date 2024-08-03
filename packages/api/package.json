@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.5",
+    "tsx": "^4.16.5",
     "zod": "^3.23.8"
   }
 }
