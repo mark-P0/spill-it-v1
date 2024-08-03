@@ -1,3 +1,7 @@
 {
-  "name": "@spill-it-v1/api"
+  "name": "@spill-it-v1/api",
+  "devDependencies": {
+    "@types/node": "^22.1.0",
+    "typescript": "^5.5.4"
+  }
 }
