@@ -1,7 +1,12 @@
 {
   "name": "@spill-it-v1/api",
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-resolvers": "^4.2.1",
+    "@parcel/watcher": "^2.4.1",
     "@types/node": "^22.1.0",
+    "graphql": "^16.9.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
