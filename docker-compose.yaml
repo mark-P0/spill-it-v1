@@ -1,0 +1,10 @@
+# docker compose up --detach
+
+services:
+  dev-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    env_file: .env
+    ports:
+      - ${PORT}:${PORT}

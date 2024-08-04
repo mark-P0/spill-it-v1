@@ -1,0 +1,30 @@
+
+# docker build --tag=spill-it-v1/api --file=Dockerfile.api .
+# docker run -it spill-it-v1/api /bin/bash
+# docker run spill-it-v1/api
+
+## Create base image that has PNPM
+## https://pnpm.io/docker
+## https://pnpm.io/installation
+FROM node:lts-slim AS pnpm
+RUN npm install --global pnpm
+
+## Pre-fetch [production] dependencies based on lockfile
+## https://pnpm.io/cli/fetch
+FROM pnpm AS install
+WORKDIR /spill-it-v1/repo
+COPY pnpm-lock.yaml .
+# COPY patches patches # Also include patches, if any
+RUN pnpm fetch --prod
+
+## Install package [production] dependencies
+## Offline because it has already been pre-fetched
+COPY . .
+RUN pnpm --filter=@spill-it-v1/api install --offline --prod
+RUN pnpm deploy --filter=@spill-it-v1/api --prod /spill-it-v1/deploys/api
+
+## Use only deployed files in final image
+FROM pnpm AS api
+WORKDIR /spill-it-v1/api
+COPY --from=install /spill-it-v1/deploys/api .
+CMD [ "pnpm", "tsx", "src/index.ts" ]
