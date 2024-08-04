@@ -6,11 +6,11 @@
     "@graphql-codegen/typescript-resolvers": "^4.2.1",
     "@parcel/watcher": "^2.4.1",
     "@types/node": "^22.1.0",
-    "graphql": "^16.9.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@apollo/server": "^4.10.5",
+    "graphql": "^16.9.0",
     "tsx": "^4.16.5",
     "zod": "^3.23.8"
   }
