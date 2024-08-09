@@ -1,10 +1,33 @@
-# docker compose up --detach
+## Mainly used for local development
+##
+## docker compose up
+## docker compose up --detach
+## docker compose up --build --watch
 
 services:
-  dev-api:
+  ## https://github.com/docker/compose/issues/11773
+  ## Used just to keep Compose alive, thus making sure `sync+restart` works correctly
+  ## Can be removed if other long-term service is available, e.g. database
+  __dummy-service-keep-alive:
+    image: alpine:latest
+    init: true
+    command: ["sh", "-c", "while true; do sleep 2; done"]
+
+  api:
     build:
       context: .
       dockerfile: Dockerfile.api
     env_file: .env
     ports:
       - ${PORT}:${PORT}
+
+    develop:
+      watch:
+        - action: sync+restart
+          path: packages/api/src/
+          target: /spill-it-v1/packages/api/src/
+
+        ## Also add workspace dependencies here
+        # - action: sync+restart
+        #   path: packages/<workspace-package>/src/
+        #   target: /spill-it-v1/packages/<workspace-package>/src/
