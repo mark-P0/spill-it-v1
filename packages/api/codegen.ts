@@ -8,12 +8,14 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: "./src/type-defs.ts",
   generates: {
-    "./src/types.ts": {
+    "./codegen/types.ts": {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
         useIndexSignature: true,
         useTypeImports: true,
-        contextType: "./context#ContextValue",
+
+        /** Relative to generated file */
+        contextType: "../src/context#ContextValue",
       },
     },
   },
