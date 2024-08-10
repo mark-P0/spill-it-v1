@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import "@spill-it-v1/db";
 import { env } from "./config/env";
 import { context } from "./context";
 import { resolvers } from "./resolvers";
