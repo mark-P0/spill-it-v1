@@ -8,10 +8,32 @@ services:
   ## https://github.com/docker/compose/issues/11773
   ## Used just to keep Compose alive, thus making sure `sync+restart` works correctly
   ## Can be removed if other long-term service is available, e.g. database
-  __dummy-service-keep-alive:
-    image: alpine:latest
-    init: true
-    command: ["sh", "-c", "while true; do sleep 2; done"]
+  # __dummy-service-keep-alive:
+  #   image: alpine:latest
+  #   init: true
+  #   command: ["sh", "-c", "while true; do sleep 2; done"]
+
+  ## https://hub.docker.com/_/postgres
+  ##
+  ## Access UI at localhost:<DB_UI_PORT>/?pgsql=<DB_SERVICE_NAME>&username=<POSTGRES_USER>
+  ## e.g. http://localhost:8080/?pgsql=db&username=postgres
+  ##
+  ## Changes to username/password does not seem to reflect unless container is recreated
+  ## Remember to backup when doing so
+  db:
+    image: postgres
+    # restart: always
+    shm_size: 128mb
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  db-ui:
+    image: adminer
+    # restart: always
+    ports:
+      - ${DB_UI_PORT}:8080
 
   api:
     build:
