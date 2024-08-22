@@ -8,6 +8,13 @@ const configs = [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    /** https://typescript-eslint.io/rules/no-unused-vars */
+    rules: {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
   { ignores: ["codegen/"] },
 ];
 
