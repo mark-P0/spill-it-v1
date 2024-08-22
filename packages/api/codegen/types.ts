@@ -1,4 +1,5 @@
 import type { GraphQLResolveInfo } from 'graphql';
+import type { User as DBUser } from '@spill-it-v1/db';
 import type { ContextValue } from '../src/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -7,6 +8,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -18,19 +20,18 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  test: Test;
-};
-
-export type Test = {
-  __typename?: 'Test';
-  hello: Scalars['String']['output'];
-  protected: Scalars['String']['output'];
-  unprotected: Scalars['String']['output'];
+  user?: Maybe<User>;
 };
 
 
-export type TestHelloArgs = {
-  who?: InputMaybe<Scalars['String']['input']>;
+export type QueryUserArgs = {
+  id: Scalars['Int']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -106,32 +107,33 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Test: ResolverTypeWrapper<Test>;
+  User: ResolverTypeWrapper<DBUser>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  Int: Scalars['Int']['output'];
   Query: {};
   String: Scalars['String']['output'];
-  Test: Test;
+  User: DBUser;
 }>;
 
 export type QueryResolvers<ContextType = ContextValue, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  test?: Resolver<ResolversTypes['Test'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 }>;
 
-export type TestResolvers<ContextType = ContextValue, ParentType extends ResolversParentTypes['Test'] = ResolversParentTypes['Test']> = ResolversObject<{
-  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType, Partial<TestHelloArgs>>;
-  protected?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  unprotected?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type UserResolvers<ContextType = ContextValue, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = ContextValue> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
-  Test?: TestResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 }>;
 
