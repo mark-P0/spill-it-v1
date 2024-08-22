@@ -16,6 +16,9 @@ const config: CodegenConfig = {
 
         /** Relative to generated file */
         contextType: "../src/context#ContextValue",
+        mappers: {
+          User: "@spill-it-v1/db#User as DBUser",
+        },
       },
     },
   },

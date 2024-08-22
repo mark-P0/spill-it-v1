@@ -1,7 +1,13 @@
-// TODO "Add" this to codegen for types
+import db from "@spill-it-v1/db";
 
-export type ContextValue = Record<string, unknown>;
+export type ContextValue = {
+  db: typeof db;
+};
 
 export async function context(): Promise<ContextValue> {
-  return {};
+  const contextValue: ContextValue = {
+    db,
+  };
+
+  return contextValue;
 }
