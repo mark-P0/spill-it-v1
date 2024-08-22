@@ -48,6 +48,9 @@ services:
         - action: sync+restart
           path: packages/api/src/
           target: /spill-it-v1/packages/api/src/
+        - action: sync+restart
+          path: packages/db/src/
+          target: /spill-it-v1/packages/db/src/
 
         ## Also add workspace dependencies here
         # - action: sync+restart
