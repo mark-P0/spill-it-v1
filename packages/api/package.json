@@ -6,6 +6,7 @@
     "@graphql-codegen/typescript": "^4.0.9",
     "@graphql-codegen/typescript-resolvers": "^4.2.1",
     "@parcel/watcher": "^2.4.1",
+    "@types/eslint": "^9.6.0",
     "@types/node": "^22.1.0",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
