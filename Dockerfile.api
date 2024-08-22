@@ -24,5 +24,4 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 COPY packages/api/ packages/api/
 
 ## Run package
-WORKDIR /spill-it-v1/packages/api
-CMD [ "pnpm", "tsx", "src/index.ts" ]
+CMD [ "pnpm", "--filter=api", "exec", "tsx", "src/index.ts" ]
