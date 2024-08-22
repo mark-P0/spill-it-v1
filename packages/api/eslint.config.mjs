@@ -8,6 +8,7 @@ const configs = [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  { ignores: ["codegen/"] },
 ];
 
 export default configs;
