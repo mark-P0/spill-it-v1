@@ -73,15 +73,30 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.9.0
+        version: 9.9.0
+      '@types/eslint':
+        specifier: ^9.6.0
+        version: 9.6.0
       '@types/node':
         specifier: ^22.1.0
         version: 22.1.0
       '@types/pg':
         specifier: ^8.11.6
         version: 8.11.6
+      eslint:
+        specifier: ^9.9.0
+        version: 9.9.0(jiti@1.21.6)
+      globals:
+        specifier: ^15.9.0
+        version: 15.9.0
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
+      typescript-eslint:
+        specifier: ^8.2.0
+        version: 8.2.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
 
 packages:
 
