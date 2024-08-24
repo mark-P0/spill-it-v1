@@ -1,0 +1,19 @@
+## Create base image that has PNPM
+FROM node:lts-slim
+RUN npm install --global pnpm
+
+## Set base directory
+WORKDIR /spill-it-v1
+
+## Install package [production] depdendencies
+## Add workspace dependencies first before package itself
+COPY pnpm-workspace.yaml .
+# COPY packages/<workspace-package>/package.json package/<workspace-package>/
+COPY packages/ui/package.json packages/ui/
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+
+## Add package files
+COPY packages/ui/ packages/ui/
+
+## Run package
+CMD [ "pnpm", "--filter=ui", "dev", "--host", "--port=${UI_PORT}" ]

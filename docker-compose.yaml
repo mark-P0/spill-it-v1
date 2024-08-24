@@ -56,3 +56,17 @@ services:
         # - action: sync+restart
         #   path: packages/<workspace-package>/src/
         #   target: /spill-it-v1/packages/<workspace-package>/src/
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui.dev
+    env_file: .env
+    ports:
+      - ${UI_PORT}:${UI_PORT}
+
+    develop:
+      watch:
+        - action: sync
+          path: packages/ui/src/
+          target: /spill-it-v1/packages/ui/src/
