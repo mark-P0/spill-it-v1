@@ -23,10 +23,10 @@ export async function createUser(email: string, password: string) {
     throw new Error("Multiple users created...?");
   }
 
-  const newUser = newUsers[0]
+  const newUser = newUsers[0];
   if (newUser === undefined) {
-    throw new Error('Created user does not exist...?')
+    throw new Error("Created user does not exist...?");
   }
 
-  return newUser
+  return newUser;
 }
