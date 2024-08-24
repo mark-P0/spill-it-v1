@@ -13,4 +13,15 @@ resolvers.Query = {
   },
 };
 
+resolvers.Mutation = {
+  async createUser(parent, args, context, info) {
+    const { db } = context;
+    const { email, password } = args;
+
+    const newUser = await db.users.createUser(email, password);
+
+    return newUser;
+  },
+};
+
 resolvers.User = {};

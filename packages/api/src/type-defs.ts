@@ -9,6 +9,10 @@ export const typeDefs = /* GraphQL */ `
     user(id: Int!): User
   }
 
+  type Mutation {
+    createUser(email: String!, password: String!): User!
+  }
+
   type User {
     id: String!
     email: String!
