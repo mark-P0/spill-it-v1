@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { db } from "../db";
 import { UsersTable } from "../schema";
 
@@ -14,7 +15,12 @@ export async function getUserById(id: number) {
   return user;
 }
 
-export async function createUser(email: string, password: string) {
+export async function createUser(possibleEmail: string, password: string) {
+  const { data: email } = z.string().email().safeParse(possibleEmail);
+  if (email === undefined) {
+    throw new Error("Invalid new user email");
+  }
+
   const newUsers = await db
     .insert(UsersTable)
     .values({ email, password })
@@ -23,10 +29,10 @@ export async function createUser(email: string, password: string) {
     throw new Error("Multiple users created...?");
   }
 
-  const newUser = newUsers[0]
+  const newUser = newUsers[0];
   if (newUser === undefined) {
-    throw new Error('Created user does not exist...?')
+    throw new Error("Created user does not exist...?");
   }
 
-  return newUser
+  return newUser;
 }
