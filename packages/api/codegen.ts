@@ -59,6 +59,18 @@ const config: CodegenConfig = {
         },
       },
     },
+
+    /**
+     * https://stackoverflow.com/a/59417899
+     */
+    "./codegen/DELETEME/": {
+      preset: "client",
+      documents: "./src/type-defs.ts",
+      config: {
+        useTypeImports: true,
+        documentMode: "string",
+      },
+    },
   },
 };
 

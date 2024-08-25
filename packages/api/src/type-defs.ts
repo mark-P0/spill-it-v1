@@ -17,4 +17,11 @@ export const typeDefs = /* GraphQL */ `
     id: String!
     email: String!
   }
+
+  query GetUser($userId: Int!) {
+    user(id: $userId) {
+      email
+      id
+    }
+  }
 `;
