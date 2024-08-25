@@ -1,37 +1,19 @@
-type GraphQLRequestArgs = {
-  /** According to specs */
-  query: string;
-  operationName?: string;
-  variables?: Record<string, string | number | boolean | null>;
-} & {
-  /** Additional args */
-  url?: string;
-  method?: "GET" | "POST";
-};
+import { TypedDocumentString } from "@spill-it-v1/gql/codegen/ui/graphql";
 
-type GraphQLResponse =
+type GraphQLResponse<TData = unknown, TError = unknown> =
   | {
-      data: Record<string, unknown>;
-      errors: never;
+      data: TData;
+      errors?: never;
     }
   | {
-      data: never;
-      errors: unknown[];
+      data?: never;
+      errors: TError[];
     };
 
-// TODO Create class encapsulation?
-export class GraphQLQuery {
-  constructor(public args: GraphQLRequestArgs) {}
-
-  async fetch() {
-    // const {} = this.args;
-  }
-}
 /**
- * Workflow:
- * - Write query in Apollo Sandbox
- * - Copy-paste query (and variables) into client code as string
- * - Pass through fetcher
+ * Heavily inspired by `graphql-request`
+ *
+ * https://www.npmjs.com/package/graphql-request
  *
  * ---
  *
@@ -39,27 +21,27 @@ export class GraphQLQuery {
  * - https://www.apollographql.com/docs/apollo-server/workflow/requests
  * - https://the-guild.dev/graphql/codegen/docs/guides/vanilla-typescript
  */
-export async function gqlFetch(
-  args: GraphQLRequestArgs
-): Promise<GraphQLResponse> {
+export async function gqlFetch<TResult, TVariables>(args: {
+  document: TypedDocumentString<TResult, TVariables>;
+  variables: TVariables;
+  url?: string;
+  method?: "GET" | "POST";
+}): Promise<GraphQLResponse<TResult>> {
   const {
-    query,
-    operationName,
+    document,
     variables,
     method = "GET",
     url = "http://localhost:4000",
   } = args;
+  const query = document.toString();
 
   if (method === "GET") {
     const urlObj = new URL(url);
     urlObj.searchParams.set("query", query);
-    if (operationName !== undefined) {
-      urlObj.searchParams.set("operationName", operationName);
-    }
     urlObj.searchParams.set("variables", JSON.stringify(variables));
 
     const res = await fetch(urlObj, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" }, // Used for mitigating CSRF
     });
     const gqlResponse = await res.json();
 
@@ -70,7 +52,7 @@ export async function gqlFetch(
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query, operationName, variables }),
+      body: JSON.stringify({ query, variables }),
     });
     const gqlResponse = await res.json();
 
