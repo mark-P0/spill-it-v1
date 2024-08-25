@@ -1,5 +1,9 @@
 {
   "name": "@spill-it-v1/gql",
+  "scripts": {
+    "gen:watch": "graphql-codegen --watch",
+    "gen": "graphql-codegen"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-typed-document-node/core": "^3.2.0",
