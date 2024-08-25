@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -42,6 +43,13 @@ export type User = {
   id: Scalars['String']['output'];
 };
 
+export type GetUserQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', email: string, id: string } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -56,3 +64,12 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+
+export const GetUserDocument = new TypedDocumentString(`
+    query GetUser($userId: Int!) {
+  user(id: $userId) {
+    email
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
