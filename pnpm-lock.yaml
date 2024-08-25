@@ -115,6 +115,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@spill-it-v1/gql':
+        specifier: workspace:^
+        version: link:../gql
       react:
         specifier: ^18.3.1
         version: 18.3.1

@@ -70,3 +70,6 @@ services:
         - action: sync
           path: packages/ui/src/
           target: /spill-it-v1/packages/ui/src/
+        - action: sync
+          path: packages/gql/codegen/ui
+          target: /spill-it-v1/packages/gql/codegen/ui
