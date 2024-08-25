@@ -1,29 +1,27 @@
+import { GetUserDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
 import { useEffect, useState } from "react";
 import { gqlFetch } from "./utils/gql-fetch";
 
-export function App() {
-  const [res, setRes] = useState<unknown>(null);
+function useAsync<TData, TError = unknown>(fn: () => Promise<TData>) {
+  const [data, setData] = useState<TData | null>(null);
+  const [error, setError] = useState<TError | null>(null);
 
   useEffect(() => {
-    async function doSomething() {
-      const res = await gqlFetch({
-        method: "POST",
-        query: `
-          query GetUser($userId: Int!) {
-            user(id: $userId) {
-              email
-              id
-            }
-          }
-        `,
-        variables: { userId: 1 },
-      });
+    fn()
+      .then((data) => setData(data))
+      .catch((error) => setError(error));
+  });
 
-      setRes(res);
-    }
+  return { data, error };
+}
 
-    doSomething();
-  }, []);
+export function App() {
+  const { data: res } = useAsync(() =>
+    gqlFetch({
+      document: GetUserDocument,
+      variables: { userId: 0 },
+    })
+  );
 
   return <main>{JSON.stringify(res)}</main>;
 }
