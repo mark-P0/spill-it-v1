@@ -9,10 +9,12 @@ WORKDIR /spill-it-v1
 ## Add workspace dependencies first before package itself
 COPY pnpm-workspace.yaml .
 # COPY packages/<workspace-package>/package.json package/<workspace-package>/
+COPY packages/graphql/package.json packages/graphql/
 COPY packages/ui/package.json packages/ui/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 
 ## Add package files
+COPY packages/graphql/ packages/graphql/
 COPY packages/ui/ packages/ui/
 
 ## Run package

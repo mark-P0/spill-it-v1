@@ -1,0 +1,21 @@
+# https://stackoverflow.com/a/59417899
+
+type Query {
+  user(id: Int!): User
+}
+
+type Mutation {
+  createUser(email: String!, password: String!): User!
+}
+
+type User {
+  id: String!
+  email: String!
+}
+
+query GetUser($userId: Int!) {
+  user(id: $userId) {
+    email
+    id
+  }
+}

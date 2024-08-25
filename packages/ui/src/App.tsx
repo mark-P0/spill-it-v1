@@ -1,3 +1,4 @@
+import { GetUserDocument } from "@spill-it-v1/graphql/codegen/ui/graphql";
 import { useEffect, useState } from "react";
 import { gqlFetch } from "./utils/gql-fetch";
 
@@ -7,15 +8,7 @@ export function App() {
   useEffect(() => {
     async function doSomething() {
       const res = await gqlFetch({
-        method: "POST",
-        query: `
-          query GetUser($userId: Int!) {
-            user(id: $userId) {
-              email
-              id
-            }
-          }
-        `,
+        document: GetUserDocument,
         variables: { userId: 1 },
       });
 

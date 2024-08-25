@@ -101,8 +101,23 @@ importers:
         specifier: ^8.2.0
         version: 8.2.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
 
+  packages/graphql:
+    devDependencies:
+      '@graphql-codegen/cli':
+        specifier: ^5.0.2
+        version: 5.0.2(@parcel/watcher@2.4.1)(@types/node@22.1.0)(graphql@16.9.0)(typescript@5.5.4)
+      '@graphql-typed-document-node/core':
+        specifier: ^3.2.0
+        version: 3.2.0(graphql@16.9.0)
+      '@parcel/watcher':
+        specifier: ^2.4.1
+        version: 2.4.1
+
   packages/ui:
     dependencies:
+      '@spill-it-v1/graphql':
+        specifier: workspace:^
+        version: link:../graphql
       react:
         specifier: ^18.3.1
         version: 18.3.1
