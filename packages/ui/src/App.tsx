@@ -1,5 +1,6 @@
 import { GetUserDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
 import { useEffect, useState } from "react";
+import { SignInWithGoogleButton } from "./SignInWithGoogleButton";
 import { gqlFetch } from "./utils/gql-fetch";
 
 function useAsync<TData, TError = unknown>(fn: () => Promise<TData>) {
@@ -23,5 +24,10 @@ export function App() {
     })
   );
 
-  return <main>{JSON.stringify(res)}</main>;
+  return (
+    <div>
+      <main>{JSON.stringify(res)}</main>
+      <SignInWithGoogleButton />
+    </div>
+  );
 }
