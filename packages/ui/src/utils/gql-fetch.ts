@@ -1,4 +1,6 @@
 import { TypedDocumentString } from "@spill-it-v1/gql/codegen/ui/graphql";
+import { env } from "../config/env";
+
 
 type GraphQLResponse<TData = unknown, TError = unknown> =
   | {
@@ -31,7 +33,7 @@ export async function gqlFetch<TResult, TVariables>(args: {
     document,
     variables,
     method = "GET",
-    url = "http://localhost:4000",
+    url = env.VITE_GRAPHQL_SERVER_URL,
   } = args;
   const query = document.toString();
 
