@@ -1,4 +1,4 @@
-import type { Resolvers } from "../codegen/types";
+import type { Resolvers } from "@spill-it-v1/gql/codegen/api/types";
 
 export const resolvers: Resolvers = {};
 
