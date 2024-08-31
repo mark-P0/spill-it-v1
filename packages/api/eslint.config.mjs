@@ -15,7 +15,6 @@ const configs = [
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
-  { ignores: ["codegen/"] },
 ];
 
 export default configs;
