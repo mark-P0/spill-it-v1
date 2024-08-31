@@ -49,8 +49,8 @@ services:
           path: packages/api/src/
           target: /spill-it-v1/packages/api/src/
         - action: sync+restart
-          path: packages/gql/codegen/ui
-          target: /spill-it-v1/packages/gql/codegen/ui
+          path: packages/gql/codegen/api
+          target: /spill-it-v1/packages/gql/codegen/api
         - action: sync+restart
           path: packages/db/src/
           target: /spill-it-v1/packages/db/src/
