@@ -14,7 +14,7 @@ export async function getUserById(id: number) {
   return user;
 }
 
-export async function createUser(email: string, password: string) {
+export async function createUser(email: string, password?: string) {
   const newUsers = await db
     .insert(UsersTable)
     .values({ email, password })
