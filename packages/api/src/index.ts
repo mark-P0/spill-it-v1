@@ -1,9 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { typeDefs } from "@spill-it-v1/gql/definitions.graphql";
 import { env } from "./config/env";
 import { context } from "./context";
 import { resolvers } from "./resolvers";
-import { typeDefs } from "./type-defs";
 
 async function startServer() {
   const server = new ApolloServer({ typeDefs, resolvers });
