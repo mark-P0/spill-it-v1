@@ -9,11 +9,13 @@ WORKDIR /spill-it-v1
 ## Add workspace dependencies first before package itself
 COPY pnpm-workspace.yaml .
 # COPY packages/<workspace-package>/package.json package/<workspace-package>/
+COPY packages/db/package.json packages/db/
 COPY packages/gql/package.json packages/gql/
 COPY packages/ui/package.json packages/ui/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 
 ## Add package files
+COPY packages/db/ packages/db/
 COPY packages/gql/ packages/gql/
 COPY packages/ui/ packages/ui/
 

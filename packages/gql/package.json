@@ -8,5 +8,9 @@
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@parcel/watcher": "^2.4.1"
+  },
+  "dependencies": {
+    "@spill-it-v1/db": "workspace:^",
+    "graphql": "^16.9.0"
   }
 }
