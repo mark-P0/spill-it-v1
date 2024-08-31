@@ -8,5 +8,8 @@
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@parcel/watcher": "^2.4.1"
+  },
+  "dependencies": {
+    "graphql": "^16.9.0"
   }
 }
