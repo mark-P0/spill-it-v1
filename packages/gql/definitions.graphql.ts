@@ -6,8 +6,14 @@
  * - Operation and Fragment definitions are called "executable definitions"
  * - GraphQL services receive documents that only contain executable definitions
  * - This also seems to be why the term "document" is used to exclusively refer to "executable definitions" and "schema" to "type system definitions and extensions"
+ *
+ * ---
+ *
+ * `GraphQL` comment used for syntax highlighting and Prettier formatting
+ *
+ * - https://github.com/prettier/prettier/issues/16124
+ * - https://github.com/graphql/graphiql/blob/main/packages/vscode-graphql-syntax/tests/__fixtures__/test.ts
  */
-
 export const typeDefs = /* GraphQL */ `
   type Query {
     user(id: Int!): User
