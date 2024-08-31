@@ -1,3 +1,8 @@
+/**
+ * For type checking, use `tsc -b`
+ * - https://github.com/vitejs/vite/issues/17585
+ * - Does not seem to work on StackBlitz
+ */
 {
   "files": [],
   "references": [
