@@ -17,11 +17,13 @@ WORKDIR /spill-it-v1
 ## https://pnpm.io/cli/fetch is a useful reference
 COPY pnpm-workspace.yaml .
 # COPY packages/<workspace-package>/package.json package/<workspace-package>/
+COPY packages/gql/package.json packages/gql/
 COPY packages/db/package.json packages/db/
 COPY packages/api/package.json packages/api/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 
 ## Add package files
+COPY packages/gql/ packages/gql/
 COPY packages/db/ packages/db/
 COPY packages/api/ packages/api/
 
