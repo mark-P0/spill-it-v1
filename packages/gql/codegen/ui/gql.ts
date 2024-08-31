@@ -14,13 +14,13 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  type Query {\n    user(id: Int!): User\n  }\n\n  type Mutation {\n    createUser(email: String!, password: String!): User!\n  }\n\n  type User {\n    id: String!\n    email: String!\n  }\n\n  query GetUser($userId: Int!) {\n    user(id: $userId) {\n      email\n      id\n    }\n  }\n": types.GetUserDocument,
+    "\n  input AccessTokenQueryInput {\n    googleToken: String\n  }\n\n  type Query {\n    accessToken(input: AccessTokenQueryInput!): String!\n\n    user(id: Int!): User\n  }\n\n  type Mutation {\n    createUser(email: String!, password: String!): User!\n  }\n\n  type User {\n    id: String!\n    email: String!\n  }\n\n  query GetUser($userId: Int!) {\n    user(id: $userId) {\n      email\n      id\n    }\n  }\n": types.GetUserDocument,
 };
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  type Query {\n    user(id: Int!): User\n  }\n\n  type Mutation {\n    createUser(email: String!, password: String!): User!\n  }\n\n  type User {\n    id: String!\n    email: String!\n  }\n\n  query GetUser($userId: Int!) {\n    user(id: $userId) {\n      email\n      id\n    }\n  }\n"): typeof import('./graphql').GetUserDocument;
+export function graphql(source: "\n  input AccessTokenQueryInput {\n    googleToken: String\n  }\n\n  type Query {\n    accessToken(input: AccessTokenQueryInput!): String!\n\n    user(id: Int!): User\n  }\n\n  type Mutation {\n    createUser(email: String!, password: String!): User!\n  }\n\n  type User {\n    id: String!\n    email: String!\n  }\n\n  query GetUser($userId: Int!) {\n    user(id: $userId) {\n      email\n      id\n    }\n  }\n"): typeof import('./graphql').GetUserDocument;
 
 
 export function graphql(source: string) {
