@@ -10,6 +10,7 @@
     "@parcel/watcher": "^2.4.1"
   },
   "dependencies": {
+    "@spill-it-v1/db": "workspace:^",
     "graphql": "^16.9.0"
   }
 }

@@ -106,6 +106,9 @@ importers:
 
   packages/gql:
     dependencies:
+      '@spill-it-v1/db':
+        specifier: workspace:^
+        version: link:../db
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
