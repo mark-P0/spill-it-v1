@@ -14,7 +14,20 @@ export async function getUserById(id: number) {
   return user;
 }
 
-export async function createUser(email: string, password: string) {
+export async function getUserByEmail(email: string) {
+  const users = await db.query.UsersTable.findMany({
+    where: (UsersTable, { eq }) => eq(UsersTable.email, email),
+  });
+  if (users.length > 1) {
+    throw new Error("Multiple users for an email...?");
+  }
+
+  const user = users[0] ?? null;
+
+  return user;
+}
+
+export async function createUser(email: string, password?: string) {
   const newUsers = await db
     .insert(UsersTable)
     .values({ email, password })

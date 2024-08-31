@@ -18,6 +18,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AccessTokenQueryInput = {
+  googleToken?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
@@ -31,7 +35,13 @@ export type MutationCreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  accessToken: Scalars['String']['output'];
   user?: Maybe<User>;
+};
+
+
+export type QueryAccessTokenArgs = {
+  input: AccessTokenQueryInput;
 };
 
 
@@ -117,6 +127,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AccessTokenQueryInput: AccessTokenQueryInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -127,6 +138,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AccessTokenQueryInput: AccessTokenQueryInput;
   Boolean: Scalars['Boolean']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -140,6 +152,7 @@ export type MutationResolvers<ContextType = ContextValue, ParentType extends Res
 }>;
 
 export type QueryResolvers<ContextType = ContextValue, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryAccessTokenArgs, 'input'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 }>;
 

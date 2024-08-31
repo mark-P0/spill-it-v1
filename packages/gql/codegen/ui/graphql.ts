@@ -16,6 +16,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AccessTokenQueryInput = {
+  googleToken?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
@@ -29,7 +33,13 @@ export type MutationCreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  accessToken: Scalars['String']['output'];
   user?: Maybe<User>;
+};
+
+
+export type QueryAccessTokenArgs = {
+  input: AccessTokenQueryInput;
 };
 
 

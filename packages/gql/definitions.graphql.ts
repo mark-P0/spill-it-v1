@@ -15,7 +15,13 @@
  * - https://github.com/graphql/graphiql/blob/main/packages/vscode-graphql-syntax/tests/__fixtures__/test.ts
  */
 export const typeDefs = /* GraphQL */ `
+  input AccessTokenQueryInput {
+    googleToken: String
+  }
+
   type Query {
+    accessToken(input: AccessTokenQueryInput!): String!
+
     user(id: Int!): User
   }
 
