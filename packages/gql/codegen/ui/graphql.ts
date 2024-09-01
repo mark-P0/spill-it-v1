@@ -60,6 +60,13 @@ export type GetUserQueryVariables = Exact<{
 
 export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', email: string, id: string } | null };
 
+export type GetAccessTokenQueryVariables = Exact<{
+  input: AccessTokenQueryInput;
+}>;
+
+
+export type GetAccessTokenQuery = { __typename?: 'Query', accessToken: string };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -83,3 +90,8 @@ export const GetUserDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
+export const GetAccessTokenDocument = new TypedDocumentString(`
+    query GetAccessToken($input: AccessTokenQueryInput!) {
+  accessToken(input: $input)
+}
+    `) as unknown as TypedDocumentString<GetAccessTokenQuery, GetAccessTokenQueryVariables>;

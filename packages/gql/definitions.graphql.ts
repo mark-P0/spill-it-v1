@@ -40,4 +40,8 @@ export const typeDefs = /* GraphQL */ `
       id
     }
   }
+
+  query GetAccessToken($input: AccessTokenQueryInput!) {
+    accessToken(input: $input)
+  }
 `;
