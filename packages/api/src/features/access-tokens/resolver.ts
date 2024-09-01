@@ -1,7 +1,4 @@
-import type {
-  QueryResolvers,
-  Resolver,
-} from "@spill-it-v1/gql/codegen/api/types";
+import type { QueryResolvers } from "@spill-it-v1/gql/codegen/api/types";
 import { safeAsync } from "../../utils/safe";
 import { ResponseError } from "../graphql/response-error";
 import { generateToken } from "../tokens";
@@ -16,7 +13,7 @@ async function resolveGoogleTokenToAccessToken(
   googleToken: string,
   params: Parameters<AccessTokenQueryResolver>
 ) {
-  const [parent, args, context, info] = params;
+  const [, , context] = params;
 
   const payload = await safeAsync(() => parseGoogleToken(googleToken));
   if (payload.data === undefined) {
@@ -56,7 +53,7 @@ async function resolveGoogleTokenToAccessToken(
 export const accessTokenQueryResolver: AccessTokenQueryResolver = async (
   ...params
 ) => {
-  const [parent, args, context, info] = params;
+  const [, args] = params;
 
   const googleToken = args.input.googleToken ?? null;
   if (googleToken !== null) {

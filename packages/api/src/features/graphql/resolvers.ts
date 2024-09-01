@@ -7,7 +7,7 @@ resolvers.Query = {
   accessToken: accessTokenQueryResolver,
 
   async user(...params) {
-    const [parent, args, context, info] = params;
+    const [, args, context] = params;
     const { db } = context;
     const { id } = args;
 
@@ -19,7 +19,7 @@ resolvers.Query = {
 
 resolvers.Mutation = {
   async createUser(...params) {
-    const [parent, args, context, info] = params;
+    const [, args, context] = params;
     const { db } = context;
     const { email, password } = args;
 
