@@ -3,6 +3,10 @@ import { z } from "zod";
 import { env } from "./env";
 
 /**
+ * This function is used to create a key, in string format, for use in signing tokens
+ *
+ * ---
+ *
  * `jose` docs use `HS256` algorithm for symmetric key example
  *
  * https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md
