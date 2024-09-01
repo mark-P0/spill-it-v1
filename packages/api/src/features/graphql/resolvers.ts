@@ -1,5 +1,6 @@
 import type { Resolvers } from "@spill-it-v1/gql/codegen/api/types";
 import { accessTokenQueryResolver } from "../access-tokens/resolver";
+import { ownUserQueryResolver } from "../users/own-user";
 
 export const resolvers: Resolvers = {};
 
@@ -15,6 +16,7 @@ resolvers.Query = {
 
     return user;
   },
+  ownUser: ownUserQueryResolver,
 };
 
 resolvers.Mutation = {
