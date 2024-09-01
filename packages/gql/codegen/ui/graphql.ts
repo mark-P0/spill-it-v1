@@ -34,12 +34,18 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   accessToken: Scalars['String']['output'];
+  ownUser: User;
   user?: Maybe<User>;
 };
 
 
 export type QueryAccessTokenArgs = {
   input: AccessTokenQueryInput;
+};
+
+
+export type QueryOwnUserArgs = {
+  accessToken: Scalars['String']['input'];
 };
 
 

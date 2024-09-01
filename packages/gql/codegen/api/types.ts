@@ -36,12 +36,18 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   accessToken: Scalars['String']['output'];
+  ownUser: User;
   user?: Maybe<User>;
 };
 
 
 export type QueryAccessTokenArgs = {
   input: AccessTokenQueryInput;
+};
+
+
+export type QueryOwnUserArgs = {
+  accessToken: Scalars['String']['input'];
 };
 
 
@@ -153,6 +159,7 @@ export type MutationResolvers<ContextType = ContextValue, ParentType extends Res
 
 export type QueryResolvers<ContextType = ContextValue, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryAccessTokenArgs, 'input'>>;
+  ownUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryOwnUserArgs, 'accessToken'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 }>;
 

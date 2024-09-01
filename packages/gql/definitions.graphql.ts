@@ -24,6 +24,7 @@ export const typeDefs = /* GraphQL */ `
     accessToken(input: AccessTokenQueryInput!): String!
 
     user(id: Int!): User
+    ownUser(accessToken: String!): User!
   }
 
   type Mutation {
