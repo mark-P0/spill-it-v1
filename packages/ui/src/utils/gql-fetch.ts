@@ -1,6 +1,5 @@
 import { TypedDocumentString } from "@spill-it-v1/gql/codegen/ui/graphql";
-import { env } from "../config/env";
-
+import { env } from "../features/env";
 
 type GraphQLResponse<TData = unknown, TError = unknown> =
   | {

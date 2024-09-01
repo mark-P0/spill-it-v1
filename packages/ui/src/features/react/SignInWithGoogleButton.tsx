@@ -1,7 +1,7 @@
 import { GetAccessTokenDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
 import { useEffect, useRef } from "react";
-import { env } from "../../config/env";
 import { gqlFetch } from "../../utils/gql-fetch";
+import { env } from "../env";
 import { useAccessTokenMutation } from "../queries/access-tokens";
 
 async function exchangeGoogleTokenForAccessToken(googleToken: string) {
