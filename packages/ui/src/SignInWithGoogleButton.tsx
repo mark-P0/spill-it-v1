@@ -1,6 +1,7 @@
 import { GetAccessTokenDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
 import { useEffect, useRef } from "react";
 import { env } from "./config/env";
+import { useAccessTokenMutation } from "./features/queries/access-tokens";
 import { gqlFetch } from "./utils/gql-fetch";
 
 async function exchangeGoogleTokenForAccessToken(googleToken: string) {
@@ -23,6 +24,8 @@ async function exchangeGoogleTokenForAccessToken(googleToken: string) {
  * - https://www.npmjs.com/package/@types/gsi
  */
 export function SignInWithGoogleButton() {
+  const accessTokenMutation = useAccessTokenMutation();
+
   const divRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const div = divRef.current;
@@ -35,7 +38,7 @@ export function SignInWithGoogleButton() {
 
         const accessToken = await exchangeGoogleTokenForAccessToken(credential);
 
-        console.warn({ credential, accessToken });
+        accessTokenMutation.mutate({ accessToken });
       },
     });
 
@@ -54,7 +57,7 @@ export function SignInWithGoogleButton() {
      * Only visible on HTTPS
      */
     // google.accounts.id.prompt();
-  }, []);
+  }, [accessTokenMutation]);
 
   return <div ref={divRef}></div>;
 }
