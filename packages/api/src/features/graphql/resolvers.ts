@@ -6,7 +6,8 @@ export const resolvers: Resolvers = {};
 resolvers.Query = {
   accessToken: accessTokenQueryResolver,
 
-  async user(parent, args, context, info) {
+  async user(...params) {
+    const [parent, args, context, info] = params;
     const { db } = context;
     const { id } = args;
 
@@ -17,7 +18,8 @@ resolvers.Query = {
 };
 
 resolvers.Mutation = {
-  async createUser(parent, args, context, info) {
+  async createUser(...params) {
+    const [parent, args, context, info] = params;
     const { db } = context;
     const { email, password } = args;
 
