@@ -1,5 +1,5 @@
-import { SignInWithGoogleButton } from "../../SignInWithGoogleButton";
 import { useAccessTokenQuery } from "../../features/queries/access-tokens";
+import { SignInWithGoogleButton } from "./SignInWithGoogleButton";
 
 export function HomeScreen() {
   const { data: accessToken } = useAccessTokenQuery();
