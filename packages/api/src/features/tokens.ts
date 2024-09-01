@@ -20,7 +20,7 @@ import { env } from "./env";
  * - https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey
  */
 export async function generateKey() {
-  const keyObj = await crypto.subtle.generateKey(
+  const key = await crypto.subtle.generateKey(
     {
       name: "HMAC",
       hash: { name: "SHA-256" },
@@ -29,14 +29,14 @@ export async function generateKey() {
     ["sign"]
   );
 
-  const jwkObj = await crypto.subtle.exportKey("jwk", keyObj);
-  const jwk = JSON.stringify(jwkObj);
+  const jwk = await crypto.subtle.exportKey("jwk", key);
+  const jwkStr = JSON.stringify(jwk);
 
-  return jwk;
+  return jwkStr;
 }
 
-export async function parseKey(keyStr: string) {
-  const jwk = JSON.parse(keyStr); // TODO Make this type-safe?
+export async function parseKey(jwkStr: string) {
+  const jwk = JSON.parse(jwkStr); // TODO Make this type-safe?
 
   const key = await importJWK(jwk);
   const alg = z.string().parse(jwk.alg);
