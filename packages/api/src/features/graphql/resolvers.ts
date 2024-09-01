@@ -1,5 +1,5 @@
 import type { Resolvers } from "@spill-it-v1/gql/codegen/api/types";
-import { accessTokenQueryResolver } from "./features/access-tokens/resolver";
+import { accessTokenQueryResolver } from "../access-tokens/resolver";
 
 export const resolvers: Resolvers = {};
 

@@ -2,8 +2,8 @@ import type {
   QueryResolvers,
   Resolver,
 } from "@spill-it-v1/gql/codegen/api/types";
-import { ResponseError } from "../../utils/response-error";
 import { safeAsync } from "../../utils/safe";
+import { ResponseError } from "../graphql/response-error";
 import { generateToken } from "../tokens";
 import { parseGoogleToken } from "./google";
 
