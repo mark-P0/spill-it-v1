@@ -1,20 +1,7 @@
 import { GetUserDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
-import { useEffect, useState } from "react";
+import { useAsync } from "./features/react/use-async";
 import { SignInWithGoogleButton } from "./SignInWithGoogleButton";
 import { gqlFetch } from "./utils/gql-fetch";
-
-function useAsync<TData, TError = unknown>(fn: () => Promise<TData>) {
-  const [data, setData] = useState<TData | null>(null);
-  const [error, setError] = useState<TError | null>(null);
-
-  useEffect(() => {
-    fn()
-      .then((data) => setData(data))
-      .catch((error) => setError(error));
-  });
-
-  return { data, error };
-}
 
 export function App() {
   const { data: res } = useAsync(() =>
