@@ -31,7 +31,7 @@ export async function gqlFetch<TResult, TVariables>(args: {
   const {
     document,
     variables,
-    method = "GET",
+    method = "POST",
     url = env.VITE_GRAPHQL_SERVER_URL,
   } = args;
   const query = document.toString();
