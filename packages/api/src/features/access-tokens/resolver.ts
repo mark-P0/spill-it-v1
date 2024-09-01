@@ -3,6 +3,7 @@ import { safeAsync } from "../../utils/safe";
 import { ResponseError } from "../graphql/response-error";
 import { generateToken } from "../tokens";
 import { parseGoogleToken } from "./google";
+import type { AccessTokenClaims } from "./validation";
 
 type AccessTokenQueryResolver = Exclude<
   NonNullable<QueryResolvers["accessToken"]>,
@@ -38,9 +39,8 @@ async function resolveGoogleTokenToAccessToken(
     throw new ResponseError("BAD_GATEWAY");
   }
 
-  const accessToken = await safeAsync(() =>
-    generateToken({ id: user.data.id })
-  );
+  const claims: AccessTokenClaims = { id: user.data.id };
+  const accessToken = await safeAsync(() => generateToken(claims));
   if (accessToken.data === undefined) {
     console.error(accessToken.error);
 
