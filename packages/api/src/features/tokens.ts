@@ -1,6 +1,6 @@
 import { type JWTPayload, SignJWT, importJWK, jwtVerify } from "jose";
 import { z } from "zod";
-import { env } from "../config/env";
+import { env } from "./env";
 
 /**
  * `jose` docs use `HS256` algorithm for symmetric key example
