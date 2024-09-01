@@ -46,4 +46,11 @@ export const typeDefs = /* GraphQL */ `
   query GetAccessToken($input: AccessTokenQueryInput!) {
     accessToken(input: $input)
   }
+
+  query GetOwnUser($accessToken: String!) {
+    ownUser(accessToken: $accessToken) {
+      id
+      email
+    }
+  }
 `;
