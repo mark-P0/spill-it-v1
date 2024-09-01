@@ -1,7 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { setLocalStorageData } from "../local-storage";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getLocalStorageData, setLocalStorageData } from "../local-storage";
 
 const ACCESS_TOKEN_QUERY_KEY = ["access-token"];
+
+export function useAccessTokenQuery() {
+  const accessTokenQuery = useQuery({
+    queryKey: ACCESS_TOKEN_QUERY_KEY,
+    queryFn: () => getLocalStorageData(),
+    select: (data) => data.accessToken,
+  });
+
+  return accessTokenQuery;
+}
 
 export function useAccessTokenMutation() {
   const queryClient = useQueryClient();
