@@ -73,6 +73,13 @@ export type GetAccessTokenQueryVariables = Exact<{
 
 export type GetAccessTokenQuery = { __typename?: 'Query', accessToken: string };
 
+export type GetOwnUserQueryVariables = Exact<{
+  accessToken: Scalars['String']['input'];
+}>;
+
+
+export type GetOwnUserQuery = { __typename?: 'Query', ownUser: { __typename?: 'User', id: string, email: string } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -101,3 +108,11 @@ export const GetAccessTokenDocument = new TypedDocumentString(`
   accessToken(input: $input)
 }
     `) as unknown as TypedDocumentString<GetAccessTokenQuery, GetAccessTokenQueryVariables>;
+export const GetOwnUserDocument = new TypedDocumentString(`
+    query GetOwnUser($accessToken: String!) {
+  ownUser(accessToken: $accessToken) {
+    id
+    email
+  }
+}
+    `) as unknown as TypedDocumentString<GetOwnUserQuery, GetOwnUserQueryVariables>;
