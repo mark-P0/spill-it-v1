@@ -1,18 +1,11 @@
 ## Mainly used for local development
 ##
 ## docker compose up
-## docker compose up --detach
-## docker compose up --build --watch
+## docker compose up --watch
+## docker compose exec app pnpm --filter=api exec tsx watch src/index.ts
+## docker compose exec app pnpm --filter=ui dev --host
 
 services:
-  ## https://github.com/docker/compose/issues/11773
-  ## Used just to keep Compose alive, thus making sure `sync+restart` works correctly
-  ## Can be removed if other long-term service is available, e.g. database
-  # __dummy-service-keep-alive:
-  #   image: alpine:latest
-  #   init: true
-  #   command: ["sh", "-c", "while true; do sleep 2; done"]
-
   ## https://hub.docker.com/_/postgres
   ##
   ## Access UI at localhost:<DB_UI_PORT>/?pgsql=<DB_SERVICE_NAME>&username=<POSTGRES_USER>
@@ -35,44 +28,52 @@ services:
     ports:
       - ${DB_UI_PORT}:8080
 
-  api:
+  app:
+    # ## https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image
+    # ## https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md
+    # image: node:lts-slim
+    # user: node
+
+    ## Keep container running
+    ##
+    ## May be possible to improve stop times, i.e. not take at least 10 seconds
+    ## https://github.com/moby/moby/issues/3766
+    ## https://stackoverflow.com/questions/50534605/speed-up-docker-compose-shutdown
+    # command: tail -f /dev/null
+    # command: ["sleep", "infinity"]
+    tty: true
+
+    ## Compose Watch needs "build context" to determine where to look for files
+    ## https://stackoverflow.com/a/78508056
     build:
       context: .
-      dockerfile: Dockerfile.api
+      dockerfile: Dockerfile.app
+
     env_file: .env
     ports:
       - ${PORT}:${PORT}
-
-    develop:
-      watch:
-        - action: sync+restart
-          path: packages/api/src/
-          target: /spill-it-v1/packages/api/src/
-        - action: sync+restart
-          path: packages/gql/codegen/api
-          target: /spill-it-v1/packages/gql/codegen/api
-        - action: sync+restart
-          path: packages/db/src/
-          target: /spill-it-v1/packages/db/src/
-
-        ## Also add workspace dependencies here
-        # - action: sync+restart
-        #   path: packages/<workspace-package>/src/
-        #   target: /spill-it-v1/packages/<workspace-package>/src/
-
-  ui:
-    build:
-      context: .
-      dockerfile: Dockerfile.ui.dev
-    env_file: .env
-    ports:
       - ${UI_PORT}:${UI_PORT}
 
+    ## `x-initialSync` to sync files on Compose start
+    ## Seems to achieve this by copying more recent files than the image,
+    ## so might be important to ensure files are more recent than e.g. Dockerfile image!
+    ## https://github.com/docker/compose/issues/11102#issuecomment-2327505438
     develop:
       watch:
         - action: sync
-          path: packages/ui/src/
-          target: /spill-it-v1/packages/ui/src/
-        - action: sync
-          path: packages/gql/codegen/ui
-          target: /spill-it-v1/packages/gql/codegen/ui
+          x-initialSync: true
+          path: .
+          target: /app
+
+    ## For data persistence, volumes should not be needed as long as container is not "recreated"
+    ## https://stackoverflow.com/questions/40850077/why-does-my-non-volume-data-in-docker-container-persist-even-after-restarting-th
+    ##
+    ## However, it seems that containers should be treated as "temporary" and can be freely recreated, so volumes are still more reliable
+    ## Containers are recreated when e.g. Compose file is updated
+    ##
+    ## `pnpm store path`
+    volumes:
+      - pnpm-store:/root/.local/share/pnpm/store/v3
+
+volumes:
+  pnpm-store:
