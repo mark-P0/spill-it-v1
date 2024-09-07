@@ -2,6 +2,8 @@ import { type JWTPayload, SignJWT, importJWK, jwtVerify } from "jose";
 import { z } from "zod";
 import { env } from "./env";
 
+const zAlg = z.string();
+
 /**
  * This function is used to create a key, in string format, for use in signing tokens
  *
@@ -43,7 +45,7 @@ export async function parseKey(jwkStr: string) {
   const jwk = JSON.parse(jwkStr); // TODO Make this type-safe?
 
   const key = await importJWK(jwk);
-  const alg = z.string().parse(jwk.alg);
+  const alg = zAlg.parse(jwk.alg);
 
   return { key, alg };
 }

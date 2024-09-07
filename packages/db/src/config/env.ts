@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-const envSchema = z.object({
+const zEnv = z.object({
   POSTGRES_CONNECTION_STRING: z.string(),
 });
 
-export const env = envSchema.parse(process.env);
+export const env = zEnv.parse(process.env);
