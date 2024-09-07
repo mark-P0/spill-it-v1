@@ -20,4 +20,4 @@ COPY packages/gql/ packages/gql/
 COPY packages/ui/ packages/ui/
 
 ## Run package
-CMD [ "pnpm", "--filter=ui", "dev", "--host", "--port=${UI_PORT}" ]
+CMD [ "pnpm", "--filter=ui", "dev", "--host" ]
