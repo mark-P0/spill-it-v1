@@ -1,4 +1,5 @@
 .exclude/
+.git/
 # Important to ignore node_modules from ALL directories!!!
 **/node_modules/
 .env*
