@@ -1,16 +1,19 @@
 import { useAccessTokenQuery } from "../../features/queries/access-tokens";
+import { useOwnUser } from "../queries/own-user";
 import { SignInWithGoogleButton } from "./SignInWithGoogleButton";
+
+function UserDisplay() {
+  const ownUser = useOwnUser();
+
+  return <pre>{JSON.stringify(ownUser)}</pre>;
+}
 
 export function HomeScreen() {
   const { data: accessToken } = useAccessTokenQuery();
 
   return (
     <main>
-      {accessToken === undefined ? (
-        <SignInWithGoogleButton />
-      ) : (
-        <pre>{accessToken}</pre>
-      )}
+      {accessToken === undefined ? <SignInWithGoogleButton /> : <UserDisplay />}
     </main>
   );
 }
