@@ -1,7 +1,7 @@
 /**
  * While local Compose is running,
  *
- * docker exec -it spill-it-v1-api-1 pnpm --filter=db exec drizzle-kit push
+ * docker compose exec app pnpm --filter=db exec drizzle-kit push
  *
  * https://orm.drizzle.team/kit-docs/commands#prototype--push
  * https://orm.drizzle.team/kit-docs/commands#prototype--push
