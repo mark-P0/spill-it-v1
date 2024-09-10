@@ -46,6 +46,8 @@ export async function gqlFetch<TResult, TVariables>(args: {
     });
     const gqlResponse = await res.json();
 
+    if (!res.ok) throw gqlResponse;
+
     return gqlResponse;
   }
 
@@ -56,6 +58,8 @@ export async function gqlFetch<TResult, TVariables>(args: {
       body: JSON.stringify({ query, variables }),
     });
     const gqlResponse = await res.json();
+
+    if (!res.ok) throw gqlResponse;
 
     return gqlResponse;
   }

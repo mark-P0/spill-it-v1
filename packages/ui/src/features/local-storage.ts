@@ -23,6 +23,13 @@ export function setLocalStorageData<T extends LocalStorageKey>(
   key: T,
   value: LocalStorage[T]
 ) {
+  const valueOrNull = value ?? null;
+  if (valueOrNull === null) {
+    localStorage.removeItem(key);
+
+    return;
+  }
+
   const valueStr = JSON.stringify(value);
   localStorage.setItem(key, valueStr);
 }

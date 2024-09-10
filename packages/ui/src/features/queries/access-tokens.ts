@@ -17,9 +17,11 @@ export function useAccessTokenMutation() {
   const queryClient = useQueryClient();
   const accessTokenMutation = useMutation({
     mutationKey: ACCESS_TOKEN_QUERY_KEY,
-    async mutationFn(args: { accessToken: string }) {
+
+    async mutationFn(args: { accessToken: string | undefined }) {
       setLocalStorageData("accessToken", args.accessToken);
     },
+
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ACCESS_TOKEN_QUERY_KEY });
     },
