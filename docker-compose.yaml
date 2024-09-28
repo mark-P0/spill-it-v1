@@ -5,6 +5,13 @@
 ## docker compose exec app pnpm --filter=api exec tsx watch src/index.ts
 ## docker compose exec app pnpm --filter=ui dev --host
 
+## Running directly
+##
+## Copy .env files to relevant packages (api, ui, db)
+## pnpm tsx watch --env-file=./.env ./src/index.ts
+## pnpm dev
+## pnpm drizzle-kit push
+
 services:
   ## https://hub.docker.com/_/postgres
   ##
