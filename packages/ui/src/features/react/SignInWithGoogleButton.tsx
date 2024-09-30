@@ -5,12 +5,12 @@ import { gqlFetch } from "../graphql/gql-fetch";
 import { useAccessTokenMutation } from "../queries/access-tokens";
 
 async function exchangeGoogleTokenForAccessToken(googleToken: string) {
-  const res = await gqlFetch({
+  const gqlResp = await gqlFetch({
     document: GetAccessTokenDocument,
     variables: { input: { googleToken } },
   });
 
-  const accessToken = res.data?.accessToken;
+  const accessToken = gqlResp?.accessToken;
   if (accessToken === undefined) {
     throw new Error("Failed exchanging Google token for access token");
   }

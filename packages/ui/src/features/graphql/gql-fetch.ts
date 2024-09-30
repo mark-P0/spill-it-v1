@@ -1,15 +1,17 @@
 import { TypedDocumentString } from "@spill-it-v1/gql/codegen/ui/graphql";
+import { z } from "zod";
 import { env } from "../env";
 
-type GraphQLResponse<TData = unknown, TError = unknown> =
-  | {
-      data: TData;
-      errors?: never;
-    }
-  | {
-      data?: never;
-      errors: TError[];
-    };
+const zGraphQLResponse = z.object({
+  data: z.unknown().optional(),
+  errors: z.unknown().optional(),
+});
+
+export class GraphQLResponseError extends Error {
+  constructor(public errors: unknown) {
+    super("GraphQL responded with error(s)");
+  }
+}
 
 /**
  * Heavily inspired by `graphql-request`
@@ -27,7 +29,7 @@ export async function gqlFetch<TResult, TVariables>(args: {
   variables: TVariables;
   url?: string;
   method?: "GET" | "POST";
-}): Promise<GraphQLResponse<TResult>> {
+}) {
   const {
     document,
     variables,
@@ -44,9 +46,24 @@ export async function gqlFetch<TResult, TVariables>(args: {
     const res = await fetch(urlObj, {
       headers: { "Content-Type": "application/json" }, // Used for mitigating CSRF
     });
-    const gqlResponse = await res.json();
+    const resJson = await res.json();
 
-    return gqlResponse;
+    const { data: resGraphQL } = zGraphQLResponse.safeParse(resJson);
+    if (resGraphQL === undefined) {
+      throw new Error("Response shape is non-GraphQL");
+    }
+
+    const { data, errors } = resGraphQL;
+    if (errors !== undefined) {
+      throw new GraphQLResponseError(errors);
+    }
+    if (data === undefined) {
+      throw new Error("GraphQL responded with unexpected shape");
+    }
+
+    const result = data as TResult;
+
+    return result;
   }
 
   if (method === "POST") {
@@ -55,9 +72,24 @@ export async function gqlFetch<TResult, TVariables>(args: {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query, variables }),
     });
-    const gqlResponse = await res.json();
+    const resJson = await res.json();
 
-    return gqlResponse;
+    const { data: resGraphQL } = zGraphQLResponse.safeParse(resJson);
+    if (resGraphQL === undefined) {
+      throw new Error("Response shape is non-GraphQL");
+    }
+
+    const { data, errors } = resGraphQL;
+    if (errors !== undefined) {
+      throw new GraphQLResponseError(errors);
+    }
+    if (data === undefined) {
+      throw new Error("GraphQL responded with unexpected shape");
+    }
+
+    const result = data as TResult;
+
+    return result;
   }
 
   method satisfies never;

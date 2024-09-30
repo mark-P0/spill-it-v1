@@ -19,7 +19,7 @@ export function useOwnUser() {
           }),
   });
 
-  const ownUser = gqlResp?.data?.ownUser;
+  const ownUser = gqlResp?.ownUser;
 
   return ownUser;
 }
