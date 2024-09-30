@@ -1,9 +1,9 @@
 import { useAccessTokenQuery } from "../../features/queries/access-tokens";
-import { useOwnUser } from "../queries/own-user";
+import { useOwnUserQuery } from "../queries/own-user";
 import { SignInWithGoogleButton } from "./SignInWithGoogleButton";
 
 function UserDisplay() {
-  const ownUser = useOwnUser();
+  const { data: ownUser } = useOwnUserQuery();
 
   return <pre>{JSON.stringify(ownUser)}</pre>;
 }

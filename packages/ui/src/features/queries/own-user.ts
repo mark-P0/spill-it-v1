@@ -3,12 +3,12 @@ import { skipToken, useQuery } from "@tanstack/react-query";
 import { useAccessTokenQuery } from "../../features/queries/access-tokens";
 import { gqlFetch } from "../graphql/gql-fetch";
 
-export function useOwnUser() {
+export function useOwnUserQuery() {
   const { data: accessToken } = useAccessTokenQuery();
 
   const hasAccessToken = accessToken !== undefined;
   const canQueryOwnUser = hasAccessToken;
-  const { data: gqlResp } = useQuery({
+  const ownUserQuery = useQuery({
     queryKey: ["own-user", accessToken],
     queryFn: !canQueryOwnUser
       ? skipToken
@@ -19,7 +19,5 @@ export function useOwnUser() {
           }),
   });
 
-  const ownUser = gqlResp?.ownUser;
-
-  return ownUser;
+  return ownUserQuery;
 }
