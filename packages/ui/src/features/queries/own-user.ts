@@ -1,14 +1,14 @@
 import { GetOwnUserDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
 import { skipToken, useQuery } from "@tanstack/react-query";
 import {
-  triggerLogoutEvent,
+  useAccessTokenMutation,
   useAccessTokenQuery,
-  useLogoutEvent,
 } from "../../features/queries/access-tokens";
 import { gqlFetch } from "../graphql/gql-fetch";
 
 export function useOwnUserQuery() {
   const { data: accessToken } = useAccessTokenQuery();
+  const accessTokenMutation = useAccessTokenMutation();
 
   const hasAccessToken = accessToken !== undefined && accessToken !== null;
   const canQueryOwnUser = hasAccessToken;
@@ -25,11 +25,12 @@ export function useOwnUserQuery() {
           }),
   });
 
-  useLogoutEvent();
-  const { status, fetchStatus } = ownUserQuery;
-  const isUserNotAvailable = status === "error" && fetchStatus !== "fetching";
-  if (isUserNotAvailable) {
-    triggerLogoutEvent();
+  const isUserNotAvailable =
+    ownUserQuery.status === "error" && ownUserQuery.fetchStatus !== "fetching";
+  const isLogoutOngoing = accessTokenMutation.status === "pending";
+
+  if (isUserNotAvailable && !isLogoutOngoing) {
+    accessTokenMutation.mutate({ action: "remove" });
   }
 
   return ownUserQuery;

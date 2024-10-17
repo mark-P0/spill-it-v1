@@ -56,8 +56,8 @@ export function useAccessTokenMutation() {
       }
     },
 
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ACCESS_TOKEN_QUERY_KEY });
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ACCESS_TOKEN_QUERY_KEY });
     },
   });
 
