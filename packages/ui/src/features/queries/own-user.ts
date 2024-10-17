@@ -1,6 +1,10 @@
 import { GetOwnUserDocument } from "@spill-it-v1/gql/codegen/ui/graphql";
 import { skipToken, useQuery } from "@tanstack/react-query";
-import { useAccessTokenQuery } from "../../features/queries/access-tokens";
+import {
+  triggerLogoutEvent,
+  useAccessTokenQuery,
+  useLogoutEvent,
+} from "../../features/queries/access-tokens";
 import { gqlFetch } from "../graphql/gql-fetch";
 
 export function useOwnUserQuery() {
@@ -10,6 +14,8 @@ export function useOwnUserQuery() {
   const canQueryOwnUser = hasAccessToken;
   const ownUserQuery = useQuery({
     queryKey: ["own-user", accessToken],
+    retryDelay: 500,
+
     queryFn: !canQueryOwnUser
       ? skipToken
       : () =>
@@ -18,6 +24,13 @@ export function useOwnUserQuery() {
             variables: { accessToken },
           }),
   });
+
+  useLogoutEvent();
+  const { status, fetchStatus } = ownUserQuery;
+  const isUserNotAvailable = status === "error" && fetchStatus !== "fetching";
+  if (isUserNotAvailable) {
+    triggerLogoutEvent();
+  }
 
   return ownUserQuery;
 }

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import {
   getFromStorage,
   removeFromStorage,
@@ -15,6 +16,7 @@ type AccessTokenMutationArgs =
     };
 
 const ACCESS_TOKEN_QUERY_KEY = ["access-token"];
+const LOGOUT_EVENT_NAME = crypto.randomUUID();
 
 export function useAccessTokenQuery() {
   const accessTokenQuery = useQuery({
@@ -60,4 +62,31 @@ export function useAccessTokenMutation() {
   });
 
   return accessTokenMutation;
+}
+
+export function useLogoutEvent() {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    /**
+     * Basically `accessTokenMutation.mutate({ action: "remove" })` but manual...
+     *
+     * Maybe there's a more "elegant" way for this?
+     */
+    function logoutEventCallback() {
+      removeFromStorage("accessToken");
+
+      queryClient.invalidateQueries({ queryKey: ACCESS_TOKEN_QUERY_KEY });
+    }
+
+    window.addEventListener(LOGOUT_EVENT_NAME, logoutEventCallback);
+
+    return () => {
+      window.removeEventListener(LOGOUT_EVENT_NAME, logoutEventCallback);
+    };
+  }, [queryClient]);
+}
+
+export function triggerLogoutEvent() {
+  window.dispatchEvent(new Event(LOGOUT_EVENT_NAME));
 }

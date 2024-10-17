@@ -55,7 +55,10 @@ export async function generateToken(
   keyStr = env.TOKEN_KEY
 ) {
   const { key, alg } = await parseKey(keyStr);
-  const token = await new SignJWT(claims).setProtectedHeader({ alg }).sign(key);
+  const token = await new SignJWT(claims)
+    .setExpirationTime("3s")
+    .setProtectedHeader({ alg })
+    .sign(key);
 
   return token;
 }
