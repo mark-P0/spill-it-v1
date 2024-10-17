@@ -52,10 +52,14 @@ export async function parseKey(jwkStr: string) {
 
 export async function generateToken(
   claims: JWTPayload,
-  keyStr = env.TOKEN_KEY
+  keyStr = env.TOKEN_KEY,
+  TOKEN_EXPIRATION = "5mins"
 ) {
   const { key, alg } = await parseKey(keyStr);
-  const token = await new SignJWT(claims).setProtectedHeader({ alg }).sign(key);
+  const token = await new SignJWT(claims)
+    .setExpirationTime(TOKEN_EXPIRATION)
+    .setProtectedHeader({ alg })
+    .sign(key);
 
   return token;
 }
