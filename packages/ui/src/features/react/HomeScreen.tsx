@@ -11,9 +11,11 @@ function UserDisplay() {
 export function HomeScreen() {
   const { data: accessToken } = useAccessTokenQuery();
 
+  const hasAccessToken = accessToken !== undefined && accessToken !== null;
+
   return (
     <main>
-      {accessToken === undefined ? <SignInWithGoogleButton /> : <UserDisplay />}
+      {!hasAccessToken ? <SignInWithGoogleButton /> : <UserDisplay />}
     </main>
   );
 }
