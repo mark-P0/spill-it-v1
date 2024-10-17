@@ -1,13 +1,30 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getLocalStorageData, setLocalStorageData } from "../local-storage";
+import {
+  getFromStorage,
+  removeFromStorage,
+  setToStorage,
+} from "../local-storage";
+
+type AccessTokenMutationArgs =
+  | {
+      action: "set";
+      accessToken: string;
+    }
+  | {
+      action: "remove";
+    };
 
 const ACCESS_TOKEN_QUERY_KEY = ["access-token"];
 
 export function useAccessTokenQuery() {
   const accessTokenQuery = useQuery({
     queryKey: ACCESS_TOKEN_QUERY_KEY,
-    queryFn: () => getLocalStorageData(),
-    select: (data) => data.accessToken,
+
+    async queryFn() {
+      const token = getFromStorage("accessToken");
+
+      return token;
+    },
   });
 
   return accessTokenQuery;
@@ -15,11 +32,28 @@ export function useAccessTokenQuery() {
 
 export function useAccessTokenMutation() {
   const queryClient = useQueryClient();
+
   const accessTokenMutation = useMutation({
     mutationKey: ACCESS_TOKEN_QUERY_KEY,
-    async mutationFn(args: { accessToken: string }) {
-      setLocalStorageData("accessToken", args.accessToken);
+
+    async mutationFn(args: AccessTokenMutationArgs) {
+      const { action } = args;
+
+      if (action === "set") {
+        const { accessToken } = args;
+
+        setToStorage("accessToken", accessToken);
+
+        return;
+      }
+
+      if (action === "remove") {
+        removeFromStorage("accessToken");
+
+        return;
+      }
     },
+
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ACCESS_TOKEN_QUERY_KEY });
     },

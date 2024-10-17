@@ -24,7 +24,7 @@ async function exchangeGoogleTokenForAccessToken(googleToken: string) {
  * - https://www.npmjs.com/package/@types/gsi
  */
 export function SignInWithGoogleButton() {
-  const accessTokenMutation = useAccessTokenMutation();
+  const { mutate: mutateAccessToken } = useAccessTokenMutation();
 
   const divRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -33,12 +33,13 @@ export function SignInWithGoogleButton() {
 
     google.accounts.id.initialize({
       client_id: env.VITE_GOOGLE_CLIENT_ID,
+
       async callback(res) {
         const { credential } = res;
 
         const accessToken = await exchangeGoogleTokenForAccessToken(credential);
 
-        accessTokenMutation.mutate({ accessToken });
+        mutateAccessToken({ action: "set", accessToken });
       },
     });
 
@@ -57,7 +58,7 @@ export function SignInWithGoogleButton() {
      * Only visible on HTTPS
      */
     // google.accounts.id.prompt();
-  }, [accessTokenMutation]);
+  }, [mutateAccessToken]);
 
   return <div ref={divRef}></div>;
 }

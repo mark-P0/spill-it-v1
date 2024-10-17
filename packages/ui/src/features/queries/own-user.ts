@@ -6,7 +6,7 @@ import { gqlFetch } from "../graphql/gql-fetch";
 export function useOwnUserQuery() {
   const { data: accessToken } = useAccessTokenQuery();
 
-  const hasAccessToken = accessToken !== undefined;
+  const hasAccessToken = accessToken !== undefined && accessToken !== null;
   const canQueryOwnUser = hasAccessToken;
   const ownUserQuery = useQuery({
     queryKey: ["own-user", accessToken],

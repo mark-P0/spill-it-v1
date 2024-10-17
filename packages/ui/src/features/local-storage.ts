@@ -1,28 +1,42 @@
 import { z } from "zod";
 
-const zLocalStorage = z.object({
-  accessToken: z.string().optional(),
-});
-type LocalStorage = z.infer<typeof zLocalStorage>;
-type LocalStorageKey = keyof LocalStorage;
+/**
+ * Record of storage keys and their schemas
+ *
+ * Schemas must be optional
+ */
+const StorageSchemaRecord = {
+  accessToken: z.string(),
+};
 
-export function getLocalStorageData() {
-  const storageEntries = Object.entries(localStorage);
-  const preprocessedStorageEntries = storageEntries.map(([key, value]) => [
-    key,
-    JSON.parse(value),
-  ]);
-  const preprocessedStorageObj = Object.fromEntries(preprocessedStorageEntries);
+type TStorageSchemaRecord = typeof StorageSchemaRecord;
+type LocalStorageKey = keyof TStorageSchemaRecord;
+type LocalStorageValue<T extends LocalStorageKey> = z.infer<
+  TStorageSchemaRecord[T]
+>;
 
-  const storage = zLocalStorage.parse(preprocessedStorageObj);
+export function getFromStorage<T extends LocalStorageKey>(
+  key: T
+): LocalStorageValue<T> | null {
+  const valueRawStr = localStorage.getItem(key);
+  if (valueRawStr === null) {
+    return null;
+  }
 
-  return storage;
+  const valueRaw = JSON.parse(valueRawStr);
+  const value = StorageSchemaRecord[key].parse(valueRaw);
+
+  return value;
 }
 
-export function setLocalStorageData<T extends LocalStorageKey>(
+export function setToStorage<T extends LocalStorageKey>(
   key: T,
-  value: LocalStorage[T]
+  value: LocalStorageValue<T>
 ) {
-  const valueStr = JSON.stringify(value);
-  localStorage.setItem(key, valueStr);
+  const valueRawStr = JSON.stringify(value);
+  localStorage.setItem(key, valueRawStr);
+}
+
+export function removeFromStorage(key: LocalStorageKey) {
+  localStorage.removeItem(key);
 }
